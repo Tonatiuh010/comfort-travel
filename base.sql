@@ -1,125 +1,151 @@
--- phpMyAdmin SQL Dump
--- version 5.1.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Feb 26, 2022 at 06:32 AM
--- Server version: 10.4.18-MariaDB
--- PHP Version: 8.0.3
+DROP DATABASE IF EXISTS `COMFORT_TRAVEL`;
+CREATE DATABASE `COMFORT_TRAVEL`;
+USE COMFORT_TRAVEL;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `comfort_travel`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `permissions`
---
-
-CREATE TABLE `permissions` (
-  `PERMISSION_ID` int(11) NOT NULL,
-  `STATUS` varchar(20) NOT NULL,
-  `CREATED_BY` varchar(30) NOT NULL,
-  `UPDATED_BY` varchar(30) NOT NULL,
-  `CREATED_ON` varchar(30) NOT NULL,
-  `UPDATED_ON` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
+show tables ;
 --
 -- Table structure for table `permission_role`
 --
-
-CREATE TABLE `permission_role` (
-  `PERMISSION_ROLE_ID` int(11) NOT NULL,
-  `ROLE_ID` int(11) DEFAULT NULL,
-  `PERMISSION_DET_ID` int(11) DEFAULT NULL,
-  `ROLES_DESCRIPTION` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
+CREATE TABLE `PERMISSION` (
+    `PERMISSION_ID` 		INT(11) NOT NULL,
+    `NAME` 					VARCHAR(30),
+    `DESCRIPTION`			VARCHAR(255),
+    `STATUS` 				VARCHAR(20) NOT NULL,
+    `CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
+--
+-- Table structure for table `permission_role`
+--
+CREATE TABLE `PERMISSION_ROLE` (
+    `PERMISSION_ROLE_ID` 	INT(11) NOT NULL,
+    `ROLE_ID` 				INT(11) DEFAULT NULL,
+    `PERMISSION_ID` 		INT(11) DEFAULT NULL,
+    `STATUS` 				VARCHAR(20) NOT NULL,
+    `CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
 --
 -- Table structure for table `role`
 --
-
-CREATE TABLE `role` (
-  `ROLE_ID` int(11) NOT NULL,
-  `ROLE_NAME` varchar(30) NOT NULL,
-  `DESCRIPTION` varchar(300) NOT NULL,
-  `STATUS` varchar(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
+CREATE TABLE `ROLE` (
+    `ROLE_ID` 				INT(11) NOT NULL,
+    `ROLE_NAME` 			VARCHAR(30) NOT NULL,
+    `DESCRIPTION` 			VARCHAR(300) NOT NULL,
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
 --
--- Indexes for dumped tables
+-- Table structure for table `person`
 --
-
+CREATE TABLE `PERSON` (
+	`PERSON_ID`				INT(11) NOT NULL,
+    `FIRST_NAME`			VARCHAR(40) NOT NULL,
+    `LAST_NAME`				VARCHAR(40) NOT NULL,
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
 --
--- Indexes for table `permissions`
+-- Table structure for table `user`
 --
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`PERMISSION_ID`);
-
+CREATE TABLE `USER` (
+	`USER_ID`				INT(11) NOT NULL,
+    `PERSON_ID`				INT(11) NOT NULL,
+    `PERMISSION_ID`			INT(11) NOT NULL,
+    `NAME`					VARCHAR(40) NOT NULL,
+    `EMAIL`					VARCHAR(40) NOT NULL,
+    `PASSWORD`				VARCHAR(40) NOT NULL,
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
 --
--- Indexes for table `permission_role`
+-- Table structure for table `hotel`
 --
-ALTER TABLE `permission_role`
-  ADD PRIMARY KEY (`PERMISSION_ROLE_ID`),
-  ADD KEY `ROLE_ID` (`ROLE_ID`),
-  ADD KEY `PERMISSION_DET_ID` (`PERMISSION_DET_ID`);
-
+CREATE TABLE `HOTEL` (
+	`HOTEL_ID`				INT(11) NOT NULL,
+    `NAME`					VARCHAR(40) NOT NULL,
+    `COUNTRY_CODE`			VARCHAR(3) NOT NULL,
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
 --
--- Indexes for table `role`
+-- Table structure for table `room`
 --
-ALTER TABLE `role`
-  ADD PRIMARY KEY (`ROLE_ID`);
-
+CREATE TABLE `ROOM` (
+	`ROOM_ID`				INT(11) NOT NULL,
+	`HOTEL_ID`				INT(11) NOT NULL,
+    `CODE`				VARCHAR(10) NOT NULL,
+    `NAME`					VARCHAR(40) NOT NULL,
+    `DESCRIPTION`			VARCHAR(3) NOT NULL,
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
 --
--- AUTO_INCREMENT for dumped tables
+-- Table structure for table `TRANSACTION`
 --
-
+CREATE TABLE `TRANSACTION` (
+	`TRANSACTION_ID`		INT(11) NOT NULL,
+	`COMMENTS`				VARCHAR(255),
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
+-- 
+-- Table structure for table `TRANSACTION_DET`
 --
--- AUTO_INCREMENT for table `permissions`
+CREATE TABLE `TRANSACTION_DET` (
+	`TRANSACTION_DET_ID`	INT(11) NOT NULL,
+	`ROOM_ID`				VARCHAR(255),
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
+-- Table structure for table `reservation`
 --
-ALTER TABLE `permissions`
-  MODIFY `PERMISSION_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `permission_role`
---
-ALTER TABLE `permission_role`
-  MODIFY `PERMISSION_ROLE_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `role`
---
-ALTER TABLE `role`
-  MODIFY `ROLE_ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `permission_role`
---
-ALTER TABLE `permission_role`
-  ADD CONSTRAINT `permission_role_ibfk_1` FOREIGN KEY (`ROLE_ID`) REFERENCES `role` (`ROLE_ID`),
-  ADD CONSTRAINT `permission_role_ibfk_2` FOREIGN KEY (`PERMISSION_DET_ID`) REFERENCES `permissions` (`PERMISSION_ID`);
+CREATE TABLE `RESERVATION` (
+	`RESERVATION_ID`		INT(11) NOT NULL,
+	`USER_ID`				INT(11) NOT NULL,
+    `TRANSACTION_ID`		INT(11) NOT NULL,
+    `AMOUNT`				FLOAT(11) NOT NULL,
+    `INIT_DT`				DATETIME NOT NULL,
+    `END_DT`				DATETIME NOT NULL,
+    `STATUS` 				VARCHAR(20) NOT NULL,
+	`CREATED_BY` 			VARCHAR(30),
+    `UPDATED_BY` 			VARCHAR(30),
+    `CREATED_ON` 			DATETIME,
+    `UPDATED_ON` 			DATETIME
+);
+----------------------------------------------------------
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
